@@ -1,79 +1,77 @@
 // E1 y E2 JAVASCRIPT
 
-
 const form = document.querySelector ("#form")
 const input = document.getElementById('input')
 const btn = document.querySelector("#btn")
 const caja = document.querySelector("#caja")
 
+const pizzas = [
+    {
+        id: 1,
+        nombre: "Pepequeso",
+        precio: 250,
+        ingredientes: ["Queso", "Salsa napolitana", "Oliva", "Peperoni"],
+    },
+    {
+        id: 2,
+        nombre: "Pizzaña",
+        precio: 800,
+        ingredientes: ["Tomate", "Queso", "Piña", "Cebolla"]
+    },
+    {
+        id: 3,
+        nombre: "Pizzatables",
+        precio: 500,
+        ingredientes: ["Tomate", "Salsa napolitana", "Cebolla", "Pimenton", "Aceitunas"]
+    },
+    {
+        id: 4,
+        nombre: "Pizzason",
+        precio: 900,
+        ingredientes: ["Salsa napolitana", "Queso", "tocineta", "Pimenton", "Maiz", "Aceitunas"]
+    },
+    {
+        id: 5,
+        nombre: "Pizzaneta",
+        precio: 550,
+        ingredientes: ["Queso", "Salsa napolitana", "Tocineta", "Tomate"]
+    },
+    {
+        id: 6,
+        nombre: "Pizzaton",
+        precio: 350,
+        ingredientes: ["Queso", "Salsa napolitana", "Tomate", "Pimenton", "Pimenton"]
+    },
+    {
+        id: 7,
+        nombre: "Pizzallina",
+        precio: 1100,
+        ingredientes: ["Salsa", "Tomate", "Queso", "Maiz"]
+    }
+]
+
 const search = () => {
-    const pizzas = [
-        {
-            id: 1,
-            nombre: "Pepequeso",
-            precio: 250,
-            ingredientes: ["Queso", "Salsa napolitana", "Oliva", "Peperoni"],
-        },
-        {
-            id: 2,
-            nombre: "Pizzaña",
-            precio: 800,
-            ingredientes: ["Tomate", "Queso", "Piña", "Cebolla"]
-        },
-        {
-            id: 3,
-            nombre: "Pizzatables",
-            precio: 500,
-            ingredientes: ["Tomate", "Salsa napolitana", "Cebolla", "Pimenton", "Aceitunas"]
-        },
-        {
-            id: 4,
-            nombre: "Pizzason",
-            precio: 900,
-            ingredientes: ["Salsa napolitana", "Queso", "tocineta", "Pimenton", "Maiz", "Aceitunas"]
-        },
-        {
-            id: 5,
-            nombre: "Pizzaneta",
-            precio: 550,
-            ingredientes: ["Queso", "Salsa napolitana", "Tocineta", "Tomate"]
-        },
-        {
-            id: 6,
-            nombre: "Pizzaton",
-            precio: 350,
-            ingredientes: ["Queso", "Salsa napolitana", "Tomate", "Pimenton", "Pimenton"]
-        },
-        {
-            id: 7,
-            nombre: "Pizzallina",
-            precio: 1100,
-            ingredientes: ["Salsa", "Tomate", "Queso", "Maiz"]
-        }
-    ]
+    
+    caja.innerHTML = '';
 
-    let numberValue = document.getElementById('input').value;
+    const numberValue = input.value;
 
+    if(isEmpty(numberValue)) {
+        showError(input, "Ingresa el numero de pizza")
+        return
+    }
 
-    const result = pizzas.find(pizza => pizza.id.toString().includes(numberValue))
+    const result = pizzas.find(pizza => pizza.id === parseInt(numberValue))
 
-    let valid = false;
-
-    if (numberValue = isEmpty(numberValue)){
-        return 	showError(input, "Ingresa el numero de pizza")
-    }else if (toNum(numberValue) > 7){
-        return 	showError(input, "El numero de pizza no se encuentra en el menu");
-    }{
-        clearError(input)
-        valid = true;
+    if(!result) {
+        showError("El numero de pizza no se encuentra en el menu");
+        return
     }
 
     caja.innerHTML = `<h2>${result.nombre}</h2> <h3>$${result.precio}</h3>`
 }
 
-
-
-const showError = (input, message) => {
+const showError = (message) => {
 	const formField = input.parentElement;
 	form.classList.remove("success");
 	form.classList.add("error");
@@ -82,21 +80,11 @@ const showError = (input, message) => {
     caja.innerHTML = "";
 };
 
-const clearError = (input) => {
-	const formField = input.parentElement;
-	form.classList.remove("error");
-	const error = formField.querySelector("small");
-	error.textContent = "";
-};
-
 const isEmpty = (value) => {
-    return !value.length
+    return value.length === 0
 }
 
-let toNum = () => parseInt(input.value)
-
 const inputValue = (e) => {
-
     e.preventDefault()
     search()
     input.value = ""
